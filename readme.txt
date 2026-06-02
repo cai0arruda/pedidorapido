@@ -36,18 +36,13 @@ docker network create --driver overlay pedido-net
 
 6. Criar o serviço Redis
 
-docker service create `  --name redis`
---network pedido-net `
-redis:7-alpine
+docker service create --name redis --network pedido-net redis:7-alpine
 
 =====================================================
 
 7. Criar o serviço Web PUBLICANDO A PORTA
 
-docker service create `  --name web`
---network pedido-net `  --replicas 1`
---publish 5000:5000 `
-pedidorapido-web
+docker service create --name web --network pedido-net --replicas 1 --publish 5000:5000 pedidorapido-web
 
 =====================================================
 
