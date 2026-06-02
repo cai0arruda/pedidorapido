@@ -12,8 +12,6 @@ cd X:\FACCAT\padroes-arq-sistemas\pedidorapido
 
 2. Construir a imagem da aplicação Flask
 
-(necessário somente se a imagem não existir)
-
 docker build -t pedidorapido-web ./app
 
 =====================================================
@@ -38,49 +36,54 @@ docker network create --driver overlay pedido-net
 
 6. Criar o serviço Redis
 
-docker service create --name redis --network pedido-net redis:7-alpine
+docker service create `  --name redis`
+--network pedido-net `
+redis:7-alpine
 
 =====================================================
 
-7. Criar o serviço Web
+7. Criar o serviço Web PUBLICANDO A PORTA
 
-docker service create --name web --network pedido-net --replicas 1 pedidorapido-web
-
-=====================================================
-
-8. Criar o serviço Nginx
-
-docker service create --name nginx --network pedido-net --publish 80:80 nginx:alpine
+docker service create `  --name web`
+--network pedido-net `  --replicas 1`
+--publish 5000:5000 `
+pedidorapido-web
 
 =====================================================
 
-9. Verificar os serviços
+8. Verificar os serviços
 
 docker service ls
 
 =====================================================
 
-10. Escalar a aplicação para 5 réplicas
+9. Escalar a aplicação para 5 réplicas
 
 docker service scale web=5
 
 =====================================================
 
-11. Verificar as réplicas
+10. Verificar as réplicas
 
 docker service ps web
 
 =====================================================
 
-12. Abrir no navegador
+11. Abrir no navegador
 
-http://localhost
+http://localhost:5000
 
 =====================================================
 
-13. Listar containers
+12. Listar containers
 
 docker ps
+
+=====================================================
+
+13. Ver logs do serviço
+
+docker service logs web
 
 =====================================================
 
@@ -100,7 +103,7 @@ docker service ps web
 
 16. Encerrar os serviços
 
-docker service rm nginx web redis
+docker service rm web redis
 
 =====================================================
 
